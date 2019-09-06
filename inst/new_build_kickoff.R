@@ -1,4 +1,4 @@
-# Kickoff Script
+# Database Build Kickoff Script
 
 # Set up a connection
 connection_type <- 'postgres'
