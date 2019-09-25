@@ -64,11 +64,11 @@ function(playerId, position) {
 #* Get a Prediction of fantasy points for a given player
 #*
 #* playerid
-#* meanGoals Mean goals over last three games
-#* meanAssts Mean assists over last three games
-#* meanShots Mean shots over last three games
-#* meanFpts Mean fantasy points over last three games
-#* meanToi Mean time-on-ice over last three games
+#* @param meanGoals Mean goals over last three games
+#* @param meanAssts Mean assists over last three games
+#* @param meanShots Mean shots over last three games
+#* @param meanFpts Mean fantasy points over last three games
+#* @param meanToi Mean time-on-ice over last three games
 #* @get /predFpts
 function(playerid = '8471675',
          meanGoals = .66666,
