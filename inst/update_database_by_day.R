@@ -9,7 +9,7 @@ cn <- connect_to_db(type = connection_type,
                     host = 'localhost',
                     port = 5432,
                     user = 'postgres',
-                    password = getPass::getPass()
+                    password = Sys.getenv("NHL_PASS") # getPass::getPass()
 )
 
 # Set the search path
