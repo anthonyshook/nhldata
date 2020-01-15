@@ -26,7 +26,7 @@ connect_to_db <- function(type = "sqlite",
     con <- DBI::dbConnect(RSQLite::SQLite(), "tempdb")
   } else if (type == 'postgres') {
     con <- DBI::dbConnect(
-      DBI::dbDriver("PostgreSQL"),
+      RPostgres::Postgres(),
       dbname = dbname,
       host = host,
       port = 5432, # fill in from somewhere
