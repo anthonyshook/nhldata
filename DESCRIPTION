@@ -4,7 +4,7 @@ Title: Pulls NHL Data from the NHL API and
 Version: 0.1.0.9999
 Authors@R: c(person("Anthony", "Shook", email = "anthony.shook@gmail.com", role = c("aut", "cre")))
 Description: Provides tools for pulling NHL data from the NHL API then
-    putting it into a MySQL Database
+    putting it into a Postgres Database
 License: What license is it under?
 Encoding: UTF-8
 Imports:
