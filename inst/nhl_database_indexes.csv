@@ -1,0 +1,36 @@
+"schemaname","tablename","indexname","tablespace","indexdef"
+nhl,skater_stats,ssi,,"CREATE UNIQUE INDEX ssi ON nhl.skater_stats USING btree (playerid, gameid)"
+nhl,schedule,schedindex,,CREATE UNIQUE INDEX schedindex ON nhl.schedule USING btree (gameid)
+nhl,team_games,bsteamindex,,"CREATE UNIQUE INDEX bsteamindex ON nhl.team_games USING btree (gameid, teamid)"
+nhl,skater_games,bsskaterindex,,"CREATE UNIQUE INDEX bsskaterindex ON nhl.skater_games USING btree (playerid, gameid)"
+nhl,goalie_games,bsgoalieindex,,"CREATE UNIQUE INDEX bsgoalieindex ON nhl.goalie_games USING btree (playerid, gameid)"
+nhl,plays,plays28670games,,CREATE INDEX plays28670games ON nhl.plays USING btree (gameid)
+nhl,plays,plays31841events,,CREATE UNIQUE INDEX plays31841events ON nhl.plays USING btree (eventid)
+nhl,goals,goals86019games,,CREATE INDEX goals86019games ON nhl.goals USING btree (gameid)
+nhl,goals,goals10851events,,CREATE UNIQUE INDEX goals10851events ON nhl.goals USING btree (eventid)
+nhl,assists,assists86673games,,CREATE INDEX assists86673games ON nhl.assists USING btree (gameid)
+nhl,assists,assists52280events,,"CREATE UNIQUE INDEX assists52280events ON nhl.assists USING btree (eventid, playerid)"
+nhl,faceoffs,faceoffs79495games,,CREATE INDEX faceoffs79495games ON nhl.faceoffs USING btree (gameid)
+nhl,faceoffs,faceoffs12572events,,CREATE UNIQUE INDEX faceoffs12572events ON nhl.faceoffs USING btree (eventid)
+nhl,shots,shots20524games,,CREATE INDEX shots20524games ON nhl.shots USING btree (gameid)
+nhl,shots,shots50972events,,CREATE UNIQUE INDEX shots50972events ON nhl.shots USING btree (eventid)
+nhl,blocked_shots,blocked_shots44499games,,CREATE INDEX blocked_shots44499games ON nhl.blocked_shots USING btree (gameid)
+nhl,blocked_shots,blocked_shots67093events,,CREATE UNIQUE INDEX blocked_shots67093events ON nhl.blocked_shots USING btree (eventid)
+nhl,missed_shots,missed_shots59788games,,CREATE INDEX missed_shots59788games ON nhl.missed_shots USING btree (gameid)
+nhl,missed_shots,missed_shots76713events,,CREATE UNIQUE INDEX missed_shots76713events ON nhl.missed_shots USING btree (eventid)
+nhl,penalties,penalties37797games,,CREATE INDEX penalties37797games ON nhl.penalties USING btree (gameid)
+nhl,penalties,penalties73946events,,CREATE UNIQUE INDEX penalties73946events ON nhl.penalties USING btree (eventid)
+nhl,takeaways,takeaways42194games,,CREATE INDEX takeaways42194games ON nhl.takeaways USING btree (gameid)
+nhl,takeaways,takeaways33375events,,CREATE UNIQUE INDEX takeaways33375events ON nhl.takeaways USING btree (eventid)
+nhl,giveaways,giveaways70129games,,CREATE INDEX giveaways70129games ON nhl.giveaways USING btree (gameid)
+nhl,giveaways,giveaways41558events,,CREATE UNIQUE INDEX giveaways41558events ON nhl.giveaways USING btree (eventid)
+nhl,hits,hits93646games,,CREATE INDEX hits93646games ON nhl.hits USING btree (gameid)
+nhl,hits,hits14743events,,CREATE UNIQUE INDEX hits14743events ON nhl.hits USING btree (eventid)
+nhl,teams,teamindex,,CREATE UNIQUE INDEX teamindex ON nhl.teams USING btree (teamid)
+nhl,rosters,rosterteamindex,,CREATE INDEX rosterteamindex ON nhl.rosters USING btree (teamid)
+nhl,rosters,rosterindex,,CREATE INDEX rosterindex ON nhl.rosters USING btree (playerid)
+nhl,shootout_results,shootout_results14766games,,CREATE INDEX shootout_results14766games ON nhl.shootout_results USING btree (gameid)
+nhl,shootout_results,shootout_results29444events,,CREATE UNIQUE INDEX shootout_results29444events ON nhl.shootout_results USING btree (eventid)
+nhl,players,playerindex,,CREATE UNIQUE INDEX playerindex ON nhl.players USING btree (playerid)
+nhl,draft_results,draftresindex,,CREATE UNIQUE INDEX draftresindex ON nhl.draft_results USING btree (draftid)
+nhl,current_prospects,prospectindex,,CREATE UNIQUE INDEX prospectindex ON nhl.current_prospects USING btree (prospectid)

@@ -1,0 +1,294 @@
+"table_name","column_name","data_type"
+skater_stats,playerid,integer
+skater_stats,gameid,integer
+skater_stats,goals,integer
+skater_stats,assists,integer
+skater_stats,shots,integer
+skater_stats,shot_pct,double precision
+skater_stats,hits,integer
+skater_stats,pp_goals,integer
+skater_stats,pp_assists,integer
+skater_stats,pim,integer
+skater_stats,fow,integer
+skater_stats,fot,integer
+skater_stats,fo_pct,double precision
+skater_stats,takeaways,integer
+skater_stats,giveaways,integer
+skater_stats,sh_goals,integer
+skater_stats,sh_assists,integer
+skater_stats,blocked_shots,integer
+skater_stats,plus_minus,integer
+skater_stats,toi,double precision
+skater_stats,toi_even,double precision
+skater_stats,toi_pp,double precision
+skater_stats,toi_sh,double precision
+skater_stats,fpts_dk,double precision
+schedule,gameid,integer
+schedule,game_type,text
+schedule,season,text
+schedule,game_datetime_utc,timestamp with time zone
+schedule,abstract_state,text
+schedule,abstract_state_code,text
+schedule,detailed_state,text
+schedule,detailed_state_code,text
+schedule,away_team_id,integer
+schedule,away_team_name,text
+schedule,away_team_wins,integer
+schedule,away_team_losses,integer
+schedule,away_team_ot_losses,integer
+schedule,away_team_score,integer
+schedule,home_team_id,integer
+schedule,home_team_name,text
+schedule,home_team_wins,integer
+schedule,home_team_losses,integer
+schedule,home_team_ot_losses,integer
+schedule,home_team_score,integer
+schedule,venueid,integer
+schedule,venue_name,text
+team_games,gameid,integer
+team_games,teamid,integer
+team_games,team_name,text
+team_games,home_away,text
+team_games,goals,integer
+team_games,pim,integer
+team_games,shots,integer
+team_games,pp_pct,text
+team_games,pp_goals,double precision
+team_games,pp_opps,double precision
+team_games,faceoff_win_pct,text
+team_games,blocked,integer
+team_games,takeaways,integer
+team_games,giveaways,integer
+team_games,hits,integer
+skater_games,playerid,integer
+skater_games,gameid,integer
+skater_games,goals,integer
+skater_games,assists,integer
+skater_games,shots,integer
+skater_games,shot_pct,double precision
+skater_games,hits,integer
+skater_games,pp_goals,integer
+skater_games,pp_assists,integer
+skater_games,pim,integer
+skater_games,fow,integer
+skater_games,fot,integer
+skater_games,fo_pct,double precision
+skater_games,takeaways,integer
+skater_games,giveaways,integer
+skater_games,sh_goals,integer
+skater_games,sh_assists,integer
+skater_games,blocked_shots,integer
+skater_games,plus_minus,integer
+skater_games,toi,double precision
+skater_games,toi_even,double precision
+skater_games,toi_pp,double precision
+skater_games,toi_sh,double precision
+skater_games,fpts_dk,double precision
+goalie_games,playerid,integer
+goalie_games,gameid,integer
+goalie_games,goals,integer
+goalie_games,toi,double precision
+goalie_games,assists,integer
+goalie_games,pim,integer
+goalie_games,saves,integer
+goalie_games,shots_against,integer
+goalie_games,saves_pp,integer
+goalie_games,shots_against_pp,integer
+goalie_games,saves_sh,integer
+goalie_games,shots_against_sh,integer
+goalie_games,saves_even,integer
+goalie_games,shots_against_even,integer
+goalie_games,decision,text
+goalie_games,save_pct,double precision
+goalie_games,save_pct_pp,double precision
+goalie_games,save_pct_sh,double precision
+goalie_games,save_pct_even,double precision
+goalie_games,goals_against,integer
+goalie_games,goals_against_pp,integer
+goalie_games,goals_against_sh,integer
+goalie_games,gaa,double precision
+goalie_games,shutout,boolean
+goalie_games,fpts_dk,double precision
+plays,eventid,double precision
+plays,gameid,integer
+plays,event_category,text
+plays,event_code,text
+plays,event_shortdesc,text
+plays,event_longdesc,text
+plays,event_idx,integer
+plays,period,integer
+plays,period_type,text
+plays,period_time,double precision
+plays,period_time_remaining,double precision
+plays,event_time,timestamp with time zone
+goals,eventid,double precision
+goals,gameid,integer
+goals,playerid,integer
+goals,player_name,text
+goals,opp_goalieid,integer
+goals,opp_goalie_name,text
+goals,shot_type,text
+goals,situation,text
+goals,game_winning_goal,boolean
+goals,empty_net,boolean
+goals,x_coord,double precision
+goals,y_coord,double precision
+assists,eventid,double precision
+assists,gameid,integer
+assists,playerid,integer
+assists,player_name,text
+assists,assist_order,integer
+faceoffs,eventid,double precision
+faceoffs,gameid,integer
+faceoffs,winnerid,integer
+faceoffs,loserid,integer
+shots,eventid,double precision
+shots,gameid,integer
+shots,shooter,integer
+shots,goalie,integer
+shots,shot_type,text
+shots,x_coord,double precision
+shots,y_coord,double precision
+blocked_shots,eventid,double precision
+blocked_shots,gameid,integer
+blocked_shots,blocking_player,integer
+blocked_shots,shooting_player,integer
+blocked_shots,x_coord,double precision
+blocked_shots,y_coord,double precision
+missed_shots,eventid,double precision
+missed_shots,gameid,integer
+missed_shots,shooter,integer
+missed_shots,desc,text
+missed_shots,x_coord,double precision
+missed_shots,y_coord,double precision
+penalties,eventid,double precision
+penalties,gameid,integer
+penalties,penalty_on_player,integer
+penalties,penalty_drawn_by,integer
+penalties,penalty_type,text
+penalties,severity,text
+penalties,pim,integer
+penalties,x_coord,double precision
+penalties,y_coord,double precision
+takeaways,eventid,double precision
+takeaways,gameid,integer
+takeaways,playerid,integer
+takeaways,x_coord,double precision
+takeaways,y_coord,double precision
+giveaways,eventid,double precision
+giveaways,gameid,integer
+giveaways,playerid,integer
+giveaways,x_coord,double precision
+giveaways,y_coord,double precision
+hits,eventid,double precision
+hits,gameid,integer
+hits,hitter,integer
+hits,hittee,integer
+hits,x_coord,double precision
+hits,y_coord,double precision
+teams,teamid,integer
+teams,team_name,text
+teams,abbr_name,text
+teams,franchiseid,integer
+teams,franchise_name,text
+teams,season,text
+teams,venueid,integer
+teams,venue_name,text
+teams,venue_city,text
+teams,venue_timezone,text
+teams,first_active_year,text
+teams,division,text
+teams,divisionid,integer
+teams,conference,text
+teams,conferenceid,integer
+teams,currently_active,boolean
+rosters,playerid,integer
+rosters,teamid,integer
+rosters,season,text
+rosters,player_name,text
+rosters,jersey_number,text
+rosters,pos,text
+rosters,pos_code,text
+rosters,pos_name,text
+rosters,pos_type,text
+shootout_results,eventid,double precision
+shootout_results,gameid,integer
+shootout_results,shooterid,integer
+shootout_results,shooter_name,text
+shootout_results,success,boolean
+shootout_results,result,text
+shootout_results,goalieid,integer
+shootout_results,goalie_name,text
+shootout_results,x_coord,double precision
+shootout_results,y_coord,double precision
+shootout_results,team,text
+shootout_results,round,integer
+shootout_results,score,integer
+players,playerid,integer
+players,fname,text
+players,lname,text
+players,jersey_number,text
+players,birth_date,text
+players,birth_city,text
+players,birth_state_province,text
+players,birth_country,text
+players,nationality,text
+players,height_inches,double precision
+players,weight_lbs,integer
+players,active,boolean
+players,captain,boolean
+players,alt_captain,boolean
+players,rookie,boolean
+players,handedness,text
+players,on_roster,text
+players,current_teamid,integer
+players,pos,text
+players,pos_name,text
+players,pos_type,text
+players,pos_broad,text
+draft_results,draftid,integer
+draft_results,draft_year,integer
+draft_results,overall_pick,integer
+draft_results,pick_in_round,integer
+draft_results,round,integer
+draft_results,draft_teamid,integer
+draft_results,team_tricode,text
+draft_results,cs_playerid,integer
+draft_results,playerid,integer
+draft_results,fname,text
+draft_results,lname,text
+draft_results,player_name,text
+draft_results,pos,text
+draft_results,birth_date,text
+draft_results,birth_place,text
+draft_results,country,text
+draft_results,height,integer
+draft_results,weight,integer
+draft_results,handedness,text
+draft_results,amateur_club,text
+draft_results,amateur_league,text
+draft_results,remove_outright,text
+draft_results,removed_reason,text
+draft_results,supplemental_draft,text
+draft_results,pick_history,text
+current_prospects,prospectid,integer
+current_prospects,fullname,text
+current_prospects,fname,text
+current_prospects,lname,text
+current_prospects,birth_date,text
+current_prospects,city,text
+current_prospects,state_province,text
+current_prospects,country,text
+current_prospects,nationality,text
+current_prospects,height,real
+current_prospects,weight,integer
+current_prospects,handedness,text
+current_prospects,pos,text
+current_prospects,pos_type,text
+current_prospects,eligible_for_draft,boolean
+current_prospects,prospect_catid,integer
+current_prospects,prospect_cat_name,text
+current_prospects,ranks,boolean
+current_prospects,amateur_team,text
+current_prospects,amateur_league,text
+current_prospects,nhl_playerid,integer
