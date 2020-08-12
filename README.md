@@ -1,11 +1,11 @@
 README
 ================
 
-## nhldata Package 
+# nhldata Package 
 
 This package can be used to interact with the NHL.com API to pull hockey statistics.
 
-### Installation
+## Installation
 
 The package is not on CRAN, but can be installed from github via
 ``` r
@@ -14,7 +14,9 @@ library(devtools)
 install_github("anthonyshook/nhldata")
 ```
 
-### Building a database
+## Building a database
+
+The easiest way to interact with the data is to build a local database, and use DBI to connect to it.
 
 The following code will build a brand new database:
 
@@ -50,7 +52,7 @@ nhldata::update_nhl_database(look_back_days = 15,
 
 ```
 
-### No Database
+## Accessing the Data without a database
 
 You can simply pull data into R using fetch functions, but you usually have to build up to it.
 
@@ -66,6 +68,7 @@ pens_at_caps <- fetch_boxscore_stats('2019020806')
 pens_at_caps_pbp <- fetch_play_by_play('2019020806')
 
 # At this point we only have IDs for players, so the easiest way to get the link between IDs and players is
+# using the fetch_player_info function 
 all_skaters <- do.call('rbind', lapply(pens_at_caps$skater_stats$playerid, fetch_player_info))
 all_goalies <- do.call('rbind', lapply(pens_at_caps$goalie_stats$playerid, fetch_player_info))
 
