@@ -1,6 +1,7 @@
 #' Connect to DB
 #'
 #' @param type One of "sqlite" or "postgres" (defaults to "sqlite" as an internal test)
+#' @param db_path Location of the SQLite DB -- ignored if type is 'postgres'
 #' @param dbname The database name. If type = 'sqlite', it will be created. If type = 'postgres', it must be an existing database. Defaults to "hockey"
 #' @param schema Only used if type = 'postgres'. Defaults to 'nhl'
 #' @param host Defaults to "localhost"
@@ -14,6 +15,7 @@
 #'
 #' @export
 connect_to_db <- function(type = "sqlite",
+                          db_path = 'tempdb.sqlite',
                           dbname = 'hockey',
                           schema = 'nhl',
                           host = 'localhost',
@@ -23,7 +25,7 @@ connect_to_db <- function(type = "sqlite",
 
   # SQL LITE connection
   if (type == 'sqlite') {
-    con <- DBI::dbConnect(RSQLite::SQLite(), "tempdb")
+    con <- DBI::dbConnect(RSQLite::SQLite(), db_path)
   } else if (type == 'postgres') {
     con <- DBI::dbConnect(
       RPostgres::Postgres(),
