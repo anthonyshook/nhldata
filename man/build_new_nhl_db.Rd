@@ -4,11 +4,16 @@
 \alias{build_new_nhl_db}
 \title{Function to build NHL database from scratch}
 \usage{
-build_new_nhl_db(seasons, dbname = "hockey", schema = "nhl",
-  num_cores = 1, conn = connect_to_db())
+build_new_nhl_db(
+  seasons,
+  dbname = "hockey",
+  schema = "nhl",
+  num_cores = 1,
+  conn = connect_to_db()
+)
 }
 \arguments{
-\item{seasons}{Which seasons to}
+\item{seasons}{Which seasons to build}
 
 \item{dbname}{A Database name to put the tables.}
 

@@ -4,8 +4,12 @@
 \alias{fetch_schedule}
 \title{Function to get game IDs for a given time period}
 \usage{
-fetch_schedule(season = NULL, start_date = NULL, end_date = NULL,
-  season_type = 2)
+fetch_schedule(
+  season = NULL,
+  start_date = NULL,
+  end_date = NULL,
+  season_type = 2
+)
 }
 \arguments{
 \item{season}{Season to query (e.g., '20152016'). Passing nothing will return the current day}

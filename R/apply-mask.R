@@ -9,6 +9,7 @@
 #' then removes the masked row, leaving only the original data, plus whatever columns were missing
 #' but expected, behind and with NA
 #'
+#' @keywords internal
 apply_mask <- function(mask_names, dat) {
 
   datcopy <- data.table::copy(dat)

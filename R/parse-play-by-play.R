@@ -135,10 +135,13 @@ parse_pbp <- function(pbp) {
 
       ## SHOTS
       if (AP$result$eventTypeId == "SHOT") {
+        # tryCatch(AP$players[[which(sapply(AP$players,'[[', 'playerType')=='Goalie')]]$player$id, error = function(e){print(AP)})
+        shot_goalie <- tryCatch(AP$players[[which(sapply(AP$players,'[[', 'playerType')=='Goalie')]]$player$id, error = function(e){return(0)})
+
         shots <- data.table::data.table(eventid = unique_AP_id,
                                         gameid = pbp$gameData$game$pk,
                                         shooter = AP$players[[which(sapply(AP$players,'[[', 'playerType')=='Shooter')]]$player$id,
-                                        goalie  = AP$players[[which(sapply(AP$players,'[[', 'playerType')=='Goalie')]]$player$id,
+                                        goalie  = shot_goalie,
                                         shot_type = secondary_type,
                                         x_coord = AP$coordinates$x,
                                         y_coord = AP$coordinates$y)

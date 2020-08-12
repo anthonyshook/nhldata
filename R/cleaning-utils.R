@@ -5,6 +5,7 @@
 #' @description The purpose of this function is to clean player data.  This includes removing unwanted columns,
 #' renaming wanted columns, and replacing NAs with 0.
 #'
+#' @keywords internal
 clean_player_data <- function(players) {
 
   # List of positive columns

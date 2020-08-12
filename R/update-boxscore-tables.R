@@ -23,7 +23,9 @@ update_boxscore_tables <- function(dat = NULL, conn, gameIDs = NULL) {
   # Upsert time
   dbx::dbxUpsert(conn = conn, table = 'team_games', records = team_table, where_cols = c('gameid','teamid'))
   dbx::dbxUpsert(conn = conn, table = 'skater_games', records = skater_table, where_cols = c('playerid', 'gameid'))
-  dbx::dbxUpsert(conn = conn, table = 'goalie_games', records = goalie_table, where_cols = c('playerid', 'gameid'))
+  dbx::dbxUpsert(conn = conn, table = 'goalie_games',
+                 records = goalie_table[toi > 0],
+                 where_cols = c('playerid', 'gameid'))
 
   return(TRUE)
 
