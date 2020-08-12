@@ -9,6 +9,14 @@ fetch_boxscore_stats(gameID)
 \arguments{
 \item{gameID}{A vector of gameIDs from NHL API}
 }
+\value{
+A list containing three elements
+\describe{
+  \item{team_stats}{Data about team performance (goals, shots, etc).}
+  \item{skater_stats}{Data about skaters.}
+  \item{goalie_stats}{Data about goaltender performance.}
+}
+}
 \description{
 Function to fetch game boxcores
 }

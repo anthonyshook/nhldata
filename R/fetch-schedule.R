@@ -5,7 +5,7 @@
 #' @param end_date A last date of the range (format - '2019-03-04')
 #' @param season_type The season type, where 1 = preseason, 2 = regular season, 3 = playoffs, 4 = all-star (Default 2)
 #'
-#' @details If season, start_date, and end_date are NOT provided, the default will just be the current date
+#' @details If season, start_date, and end_date are NOT provided, the default will be the current date
 #'
 #' @export
 fetch_schedule <- function(season = NULL,

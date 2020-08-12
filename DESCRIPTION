@@ -8,7 +8,6 @@ Description: Provides tools for pulling NHL data from the NHL API then
 License: What license is it under?
 Encoding: UTF-8
 Imports:
-  dplyr,
   data.table,
   httr,
   magrittr,
@@ -20,4 +19,4 @@ Imports:
   dbx,
   getPass
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0

@@ -4,8 +4,12 @@
 \alias{build_boxscore_tables}
 \title{Build player_info table}
 \usage{
-build_boxscore_tables(gameIDs, conn = connect_to_db(),
-  return_vals = FALSE, num_cores = 1)
+build_boxscore_tables(
+  gameIDs,
+  conn = connect_to_db(),
+  return_vals = FALSE,
+  num_cores = 1
+)
 }
 \arguments{
 \item{gameIDs}{a vector of gameIDs to process and add to the database}

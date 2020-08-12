@@ -4,8 +4,7 @@
 \alias{build_schedule_table}
 \title{Build schedule table}
 \usage{
-build_schedule_table(seasons, conn = connect_to_db(),
-  return_vals = FALSE)
+build_schedule_table(seasons, conn = connect_to_db(), return_vals = FALSE)
 }
 \arguments{
 \item{seasons}{A vector of seasons (format: 20182019)}

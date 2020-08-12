@@ -2,6 +2,13 @@
 #'
 #' @param gameID A vector of gameIDs from NHL API
 #'
+#' @return A list containing three elements
+#' \describe{
+#'   \item{team_stats}{Data about team performance (goals, shots, etc).}
+#'   \item{skater_stats}{Data about skaters.}
+#'   \item{goalie_stats}{Data about goaltender performance.}
+#' }
+#'
 #' @export
 fetch_boxscore_stats <- function(gameID){
 

@@ -4,9 +4,15 @@
 \alias{connect_to_db}
 \title{Connect to DB}
 \usage{
-connect_to_db(type = "sqlite", dbname = "hockey", schema = "nhl",
-  host = "localhost", port = 5432, user = "postgres",
-  password = getPass::getPass())
+connect_to_db(
+  type = "sqlite",
+  dbname = "hockey",
+  schema = "nhl",
+  host = "localhost",
+  port = 5432,
+  user = "postgres",
+  password = getPass::getPass()
+)
 }
 \arguments{
 \item{type}{One of "sqlite" or "postgres" (defaults to "sqlite" as an internal test)}
