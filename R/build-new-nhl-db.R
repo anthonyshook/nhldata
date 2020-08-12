@@ -27,30 +27,6 @@ build_new_nhl_db <- function(seasons,
 
 
   start_time <- Sys.time()
-  # ## THIS CODE CAN STAY HERE, WITH THE SQLITE CODE BEING USED
-  # ## FOR TESTING PURPOSES
-  # # Creating a PSQL connection.  The DBName is passed here.
-  # drv <- RPostgreSQL::dbDriver("PostgreSQL")
-  # con <- DBI::dbConnect(
-  #   drv,
-  #   dbname = dbname,
-  #   host = "", # fill in from somewhere
-  #   port = , # fill in from somewhere
-  #   user = "", # fill in from somewhere
-  #   password = "" # fill in from somewhere
-  # )
-  #
-  # # This is PSQL syntax for setting the schema to "NHL"
-  # DBI::dbSendQuery(con, statement = 'SET search_path = nhl, public;')
-
-  # Next we run down the list in order
-  # Schedule will start by getting us gameIDs
-  # GameIDs can be used to get boxscores, which can be used to get PlayerIDs
-  # From there, we have everything we need.
-
-  ## IN ANOTHER SCRIPT
-  # UPDATES can basically just take the gameIDs we don't have boxscore data for and run those.
-  # OR run the previous week and upsert everything, which is also probably perfectly fine!
 
   ## Schedules first!
   message(Sys.time(), " -- Building Schedule Table")
