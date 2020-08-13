@@ -43,13 +43,12 @@ The /inst/ folder contains two CSVs that describe the database that is build abo
 A wrapper function to update an existing database with new data exists:
 ``` r
 # Again, connect to your DB
-cn <- nhldata::connect_to_db()
+cn <- nhldata::connect_to_db(db_path = '/path/to/database.sqlite')
 
 # Get all the NHL data for the past 15 days, and upsert it into the Database.
 # This will handle duplicates for you, and only insert the new data
 nhldata::update_nhl_database(look_back_days = 15, 
                              conn = cn)
-
 ```
 
 ## Accessing the Data without a database
