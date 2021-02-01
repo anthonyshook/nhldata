@@ -82,6 +82,8 @@ parse_pbp <- function(pbp) {
                                         gameid = pbp$gameData$game$pk,
                                         playerid = goal_scorer$player$id,
                                         player_name = goal_scorer$player$fullName,
+                                        player_team_id = AP$team$id,
+                                        player_team_name = AP$team$name,
                                         opp_goalieid = opp_goalie$player$id,
                                         opp_goalie_name = opp_goalie$player$fullName,
                                         shot_type = secondary_type,
