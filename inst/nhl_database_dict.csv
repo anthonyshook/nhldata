@@ -125,6 +125,8 @@ goals,eventid,double precision
 goals,gameid,integer
 goals,playerid,integer
 goals,player_name,text
+goals,player_team_id
+goals,player_team_name
 goals,opp_goalieid,integer
 goals,opp_goalie_name,text
 goals,shot_type,text
