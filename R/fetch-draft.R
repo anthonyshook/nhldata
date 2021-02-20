@@ -42,9 +42,11 @@ fetch_draft_data <- function(verbose = FALSE) {
   # Changing column names
   data.table::setnames(final_draft_data,
                        old = colnames(final_draft_data),
-                       new = c("draftid", "amateur_club", "amateur_league", "birth_date", "birth_place", "country", "cs_playerid",
-                               "draft_year", "draft_teamid", "fname", "height", "lname", "overall_pick",
-                               "pick_in_round", "playerid", "player_name", "pos", "remove_outright", "removed_reason", "round",
+                       new = c("draftid", "age_in_days", "age_in_days_for_year", "age_in_years",
+                               "amateur_club", "amateur_league", "birth_date", "birth_place", "country", "cs_playerid",
+                               "draft_date", "draft_id", "draft_year", "draft_teamid",
+                               "fname", "height", "lname", "notes", "overall_pick", "pick_in_round",
+                               "playerid", "player_name", "pos", "removed_outright", "removed_reason", "round",
                                "handedness", "supplemental_draft", "pick_history", "team_tricode", "weight"))
 
   # Changing column ORDER
@@ -52,6 +54,8 @@ fetch_draft_data <- function(verbose = FALSE) {
                           neworder = c(
                             "draftid",
                             "draft_year",
+                            "draft_date",
+                            "draft_id",
                             "overall_pick",
                             "pick_in_round",
                             "round",
@@ -65,16 +69,20 @@ fetch_draft_data <- function(verbose = FALSE) {
                             "pos",
                             "birth_date",
                             "birth_place",
+                            "age_in_days",
+                            "age_in_days_for_year",
+                            "age_in_years",
                             "country",
                             "height",
                             "weight",
                             "handedness",
                             "amateur_club",
                             "amateur_league",
-                            "remove_outright",
+                            "removed_outright",
                             "removed_reason",
                             "supplemental_draft",
-                            "pick_history"
+                            "pick_history",
+                            "notes"
                           ))
 
   return(final_draft_data)
