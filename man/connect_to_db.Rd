@@ -6,6 +6,7 @@
 \usage{
 connect_to_db(
   type = "sqlite",
+  db_path = "tempdb.sqlite",
   dbname = "hockey",
   schema = "nhl",
   host = "localhost",
@@ -16,6 +17,8 @@ connect_to_db(
 }
 \arguments{
 \item{type}{One of "sqlite" or "postgres" (defaults to "sqlite" as an internal test)}
+
+\item{db_path}{Location of the SQLite DB -- ignored if type is 'postgres'}
 
 \item{dbname}{The database name. If type = 'sqlite', it will be created. If type = 'postgres', it must be an existing database. Defaults to "hockey"}
 

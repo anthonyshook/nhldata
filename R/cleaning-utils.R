@@ -168,7 +168,7 @@ convert_time <- function(time_col) {
 #'
 #' @param ftinch string of format `ft' in"`
 #'
-convert_ftinch <- function(ftinch) {
+convert_ftinch <- Vectorize(function(ftinch) {
 
   if (all(is.na(ftinch))) {
     return(NA)
@@ -182,4 +182,4 @@ convert_ftinch <- function(ftinch) {
     (as.numeric(vec[1]) * 12) + as.numeric(vec[2])
   )
 
-}
+})

@@ -1,0 +1,36 @@
+###
+Not so much a plan for an update, but a set of notes and order-of-operations guidelines
+To get a whole season's worth of data, we should:
+
+OPTION 1
+1. Get the teams
+2. Use the teams to get all the schedules
+3. De-dupe the schedule data
+
+OPTION 2
+1. USE https://api.nhle.com/stats/rest/en/season? to get all the season related info, which includes start/end dates
+2. Use the Schedule API at the *date* level to get all the dates (should be doable by *week* if we want to keep it simple)
+3. De-dupe the schedule data (if we run by week, this may not be necessary, but we'll see.)
+
+
+4. Use GAMEIDs from there to get
+  * BoxScore
+  * Play-by-Play
+
+5. Use Rosters to get Player level data, too
+
+
+-----
+Really the thing to do is build a single file for everything you want and do it piecemeal.
+*START* with pulling the data, don't even think about parsing it yet.
+*THEN* one by one add parsing into data.table format.
+
+1. Schedule -- this is dumb, so do this LAST (get game-level stuff first)
+2. Box Score
+3. Player Stats
+4. Goalie Stats
+5. Shifts
+6. Play-by-Play
+
+PBP can be broken into things like shots, etc.
+Don't worry about the database building element yet.  Just get data.

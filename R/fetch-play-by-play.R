@@ -6,12 +6,14 @@
 fetch_play_by_play <- function(gameID) {
 
   # Get the API call
-  api_call <- paste0('https://statsapi.web.nhl.com/api/v1/game/', gameID,'/feed/live')
+  api_call <- gsub(pattern="{{GAME_ID}}", replacement=gameID, x=pbp_api, fixed = TRUE)
+  print(api_call)
 
   # Fetch the data
   counter <- 0
   parsed <- NULL
-  while (counter <= 5 && is.null(parsed)) {
+  while (counter <= 1) {
+  # while (counter <= 5 && is.null(parsed)) {
 
     # Wait to asynchronize
     Sys.sleep(runif(1,0.1,.5))
@@ -23,9 +25,9 @@ fetch_play_by_play <- function(gameID) {
     pbp_data <- get_api_call(api_call)
 
     # parse the data
-    parsed <- try(parse_pbp(pbp_data))
+    #parsed <- try(parse_pbp(pbp_data))
   }
 
-  return(parsed)
+  return(pbp_data)
 
 }

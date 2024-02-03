@@ -26,7 +26,7 @@ fetch_schedule <- function(season = NULL,
                 "4" = "P")
 
   # build the API call
-  api_call <- build_schedule_api(season, start_date, end_date)
+  api_call <- build_schedule_api(start_date)
 
   # Now we can grab the query
   games_json <- get_api_call(api_call)
@@ -40,22 +40,19 @@ fetch_schedule <- function(season = NULL,
 
 
 # Helper for building schedule API
-build_schedule_api <- function(season, start_date, end_date) {
+build_schedule_api <- function(start_date) {
 
-  # Base API
-  season_api   <- 'https://statsapi.web.nhl.com/api/v1/schedule?'
-
-  if (!is.null(season)) {
-    season_api <- paste0(season_api, "season=", season)
-  }
+  # if (!is.null(season)) {
+  #   season_api <- paste0(schedule_api, "/", start_date)
+  # }
 
   if (!is.null(start_date)){
-    season_api <- paste0(season_api, "&startDate=", start_date)
+    #season_api <- paste0(schedule_api, "&startDate=", start_date)
   }
 
-  if (!is.null(end_date)) {
-    season_api <- paste0(season_api, "&endDate=", end_date)
-  }
+  # if (!is.null(end_date)) {
+  #   season_api <- paste0(schedule_api, "&endDate=", end_date)
+  # }
 
   return(season_api)
 

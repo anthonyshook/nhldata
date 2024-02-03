@@ -24,5 +24,5 @@ fetch_schedule(
 Function to get game IDs for a given time period
 }
 \details{
-If season, start_date, and end_date are NOT provided, the default will just be the current date
+If season, start_date, and end_date are NOT provided, the default will be the current date
 }
