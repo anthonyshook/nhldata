@@ -21,3 +21,15 @@ get_api_call <- function(uri) {
 
   return(res)
 }
+
+
+# Format string
+format_uri <- function(uri_string, values) {
+  for (i in seq_along(values)) {
+    pat <- paste0("{", names(values)[i], "}")
+    repl <- values[[i]]
+    uri_string <- gsub(pattern = pat, replacement = repl,
+                       x = uri_string, fixed = TRUE)
+  }
+  return(uri_string)
+}
