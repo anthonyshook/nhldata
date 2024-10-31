@@ -9,6 +9,7 @@
 #' This function will generate a set of season-level data, in CSV and JSON format
 #' This will include things like teams, franchises, boxscores, play-by-play data, and rosters
 #'
+#' @export
 archive_data <- function(path, season, clean_build=FALSE, verbose=TRUE) {
 
   # create the tree structure to start with

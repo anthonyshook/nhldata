@@ -4,10 +4,12 @@
 \alias{fetch_shift_data}
 \title{Fetch Shift level information}
 \usage{
-fetch_shift_data(gameID)
+fetch_shift_data(gameID, verbose = FALSE)
 }
 \arguments{
 \item{gameID}{Game ID for shift data}
+
+\item{verbose}{Defaults to FALSE}
 }
 \description{
 Fetch Shift level information
