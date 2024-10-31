@@ -1,63 +1,96 @@
-
-#' Function to get all teams data, including rosters!
+#' Function to get List of Teams
 #'
-#' @param season Season to pull roster data for, accepts one (format '20182019')
+#' @param nhl_only Defaults to TRUE, wherein the function returns only NHL teams
+#' If FALSE, you'll teams in other leagues (AHL, OHL, etc.)
+#' @param active_only Defaults to TRUE, wherein you'll only get active teams.
 #'
 #' @export
-fetch_team_data <- function(season = NULL) {
+fetch_all_teams <- function(nhl_only=TRUE, active_only=TRUE) {
+  resp <- get_api_call(teams_api)
 
-  team_call <- "https://statsapi.web.nhl.com/api/v1/teams?expand=team.roster"
-  if(!is.null(season)){
-    team_call <- paste0(team_call, "&season=", season)
-  } else {
-    season <- 'current'
-  }
-
-  resp <- get_api_call(team_call)
-
-  team_info <- lapply(resp$teams, function(X) {
-
-    team_data <- data.frame(X[-which(names(X)=="roster")])
-    roster_data <- data.table::rbindlist(lapply(X$roster$roster, data.frame), fill = TRUE)
-
-    return(list(
-      team = data.table::data.table(team_data, season = season),
-      roster = data.table::data.table(teamID = team_data$id, season = season, roster_data)
-    ))
+  out <- lapply(resp$data, function(z) {
+    data.frame(z[!sapply(z, is.null)])
   })
 
-  final_team_data <- data.table::rbindlist(lapply(team_info, '[[', 'team'), fill = TRUE)
-  final_roster_data <- data.table::rbindlist(lapply(team_info, '[[', 'roster'), fill = TRUE)
+  df <- data.table::rbindlist(out, fill=TRUE)
+  if (nhl_only) {
+    df <- df[leagueId==133,]
+  }
 
-  ## Cleaning up the data
-  final_team_data <- final_team_data[, .(teamid = id,
-                                         team_name = name,
-                                         abbr_name = abbreviation,
-                                         franchiseid = franchiseId,
-                                         franchise_name = franchise.teamName,
-                                         season = season,
-                                         venueid = venue.id,
-                                         venue_name = venue.name,
-                                         venue_city = venue.city,
-                                         venue_timezone = venue.timeZone.tz,
-                                         first_active_year = firstYearOfPlay,
-                                         division  = division.name,
-                                         divisionid = division.id,
-                                         conference = conference.name,
-                                         conferenceid = conference.id,
-                                         currently_active = active)][order(teamid)]
+  if (active_only) {
+  df <- df[active=='Y',]
+  }
 
-  final_roster_data <- final_roster_data[, .(playerid = person.id,
-                                             teamid = teamID,
-                                             season = season,
-                                             player_name = person.fullName,
-                                             jersey_number = jerseyNumber,
-                                             pos = position.abbreviation,
-                                             pos_code = position.code,
-                                             pos_name = position.name,
-                                             pos_type = position.type)][order(playerid)]
+  return(df)
+}
 
-  return(list(team = final_team_data,
-              roster = final_roster_data))
+#' Parse Team Data
+#' @noRd
+parse_team_metadata <- function(teamdata) {
+  teamdata[, list(
+    teamid = id,
+    team_name = fullName,
+    abbr_name = triCode,
+
+  )]
+}
+
+
+#' Function to fetch Roster Data
+#'
+#' @param season Season (e.g., 20242025)
+#' @param team Team Abbreviation (e.g., PIT)
+#'
+#' @details Simply provides rosters for a given season
+#'
+#' @export
+fetch_roster_data <- function(season, team) {
+  return(
+    roster_api |> format_uri(list(TEAM_ABBR = team, SEASON = season)) |> get_api_call()
+  )
+}
+
+
+parse_roster_data <- function(roster_json) {
+  # quick internal function
+  extract_as_data_frame <- function(x) {
+    data.frame(
+      id = x$id,
+      firstname = x$firstName$default,
+      lastname = x$lastName$default,
+      position = x$positionCode,
+      hand = x$shootsCatches,
+      height_inches = x$heightInInches,
+      weight_pounds = x$weightInPounds,
+      dob = x$birthDate,
+      birth_country = x$birthCountry,
+      birth_city = ifelse(is.null(x$birthCity$default), NA, x$birthCity$default),
+      birth_state_province = ifelse(is.null(x$birthStateProvince$default), NA, x$birthStateProvince$default)
+    )
+  }
+
+  # Fowards
+  forwards <- data.table::rbindlist(
+    lapply(roster_json$forwards, extract_as_data_frame),
+    fill = TRUE
+  )
+
+  defensemen <- data.table::rbindlist(
+    lapply(roster_json$defensemen, extract_as_data_frame),
+    fill = TRUE
+  )
+
+  goalies <- data.table::rbindlist(
+    lapply(roster_json$goalies, extract_as_data_frame),
+    fill = TRUE
+  )
+
+  return(
+    data.table::rbindlist(
+      list(forwards, defensemen, goalies),
+      fill=TRUE
+    )
+  )
 
 }
+

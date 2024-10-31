@@ -2,7 +2,6 @@
 #'
 #' @noRd
 #' @importFrom data.table :=
-#' @importFrom magrittr %>%
-#' @importFrom utils setTxtProgressBar txtProgressBar
+#' @importFrom progress progress_bar
 #'
 NULL
