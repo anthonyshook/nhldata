@@ -4,10 +4,10 @@
 \alias{fetch_draft_data}
 \title{Fetch the draft data}
 \usage{
-fetch_draft_data(verbose = FALSE)
+fetch_draft_data(year = NULL)
 }
 \arguments{
-\item{verbose}{Whether to be verbose. Default is FALSE}
+\item{year}{Draft Year - If not provided, it will just return every draft ever}
 }
 \description{
 Fetch the draft data

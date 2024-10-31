@@ -1,15 +1,19 @@
 Package: nhldata
 Type: Package
 Title: Pulls NHL Data from the NHL API and 
-Version: 0.2.0.9999
+Version: 1.0.0
 Authors@R: c(person("Anthony", "Shook", email = "anthony.shook@gmail.com", role = c("aut", "cre")))
-Description: Provides tools for pulling NHL data from the NHL API
+Description: Provides tools for pulling NHL data from the NHL API.  Updated to use the new API
 License: What license is it under?
 Encoding: UTF-8
 Imports:
   data.table,
   httr2,
   lubridate,
-  getPass
+  getPass,
+  futile.logger,
+  progress,
+  jsonlite,
+  purrr
 LazyData: true
 RoxygenNote: 7.3.1

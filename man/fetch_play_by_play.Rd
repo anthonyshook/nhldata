@@ -4,11 +4,16 @@
 \alias{fetch_play_by_play}
 \title{Function to fetch play-by-play data}
 \usage{
-fetch_play_by_play(gameID)
+fetch_play_by_play(gameID, verbose = FALSE)
 }
 \arguments{
 \item{gameID}{an NHL gameID}
+
+\item{verbose}{Defaults to FALSE}
 }
 \description{
 Function to fetch play-by-play data
+}
+\details{
+Returns the raw list-formatted JSON of play-by-play data
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/fetch-player-info.R
 \name{fetch_player_info}
 \alias{fetch_player_info}
-\title{Function to fetch player info}
+\title{Function to fetch player info for a single player}
 \usage{
 fetch_player_info(playerID)
 }
@@ -10,5 +10,5 @@ fetch_player_info(playerID)
 \item{playerID}{A player ID to fetch}
 }
 \description{
-Function to fetch player info
+Function to fetch player info for a single player
 }
