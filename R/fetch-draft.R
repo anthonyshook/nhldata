@@ -1,90 +1,28 @@
 #' Fetch the draft data
 #'
-#' @param verbose Whether to be verbose. Default is FALSE
+#' @param year Draft Year - If not provided, it will just return every draft ever
 #'
 #' @details Automatically grabs all historical draft data back to the 1960s.
 #'
 #' @export
-fetch_draft_data <- function(verbose = FALSE) {
+fetch_draft_data <- function(year = NULL) {
 
-  # API
-  api_call <- "https://records.nhl.com/site/api/draft/"
-
-  # Get the data
-  if (verbose){cat("Grabbing data from NHL API\n")}
-  raw_draft_data <- get_api_call(api_call)
-
-  if (verbose){
-    # Set up progress bar
-    cat("Parsing Draft Data\n")
-    pb <- txtProgressBar(min = 0, max = raw_draft_data$total, style = 3)
+  if (is.null(year)) {
+    draft_api <- draft_api
+  } else {
+    draft_api <- draft_api |> paste0('?cayenneExp=draftYear={YEAR}') |> format_uri(list(YEAR=year))
   }
+  draft_data <- draft_api |> get_api_call()
 
-  # Parsing the draft data
-  draft_data <- lapply(1:raw_draft_data$total, function(Dt){
+  return(draft_data$data)
 
-    D <- raw_draft_data$data[[Dt]]
+}
 
-    if (verbose){
-      setTxtProgressBar(pb = get("pb", environment()), Dt)
-    }
 
-    # Replace all NULL with NA
-    D[sapply(D,is.null)]<-NA
-
-    out <- data.frame(D, stringsAsFactors = FALSE)
-  })
-
-  final_draft_data <- data.table::rbindlist(draft_data, fill = TRUE)
-
-  final_draft_data <- final_draft_data[order(draftYear, overallPickNumber)]
-
-  # Changing column names
-  data.table::setnames(final_draft_data,
-                       old = colnames(final_draft_data),
-                       new = c("draftid", "age_in_days", "age_in_days_for_year", "age_in_years",
-                               "amateur_club", "amateur_league", "birth_date", "birth_place", "country", "cs_playerid",
-                               "draft_date", "draft_id", "draft_year", "draft_teamid",
-                               "fname", "height", "lname", "notes", "overall_pick", "pick_in_round",
-                               "playerid", "player_name", "pos", "removed_outright", "removed_reason", "round",
-                               "handedness", "supplemental_draft", "pick_history", "team_tricode", "weight"))
-
-  # Changing column ORDER
-  data.table::setcolorder(final_draft_data,
-                          neworder = c(
-                            "draftid",
-                            "draft_year",
-                            "draft_date",
-                            "draft_id",
-                            "overall_pick",
-                            "pick_in_round",
-                            "round",
-                            "draft_teamid",
-                            "team_tricode",
-                            "cs_playerid",
-                            "playerid",
-                            "fname",
-                            "lname",
-                            "player_name",
-                            "pos",
-                            "birth_date",
-                            "birth_place",
-                            "age_in_days",
-                            "age_in_days_for_year",
-                            "age_in_years",
-                            "country",
-                            "height",
-                            "weight",
-                            "handedness",
-                            "amateur_club",
-                            "amateur_league",
-                            "removed_outright",
-                            "removed_reason",
-                            "supplemental_draft",
-                            "pick_history",
-                            "notes"
-                          ))
-
-  return(final_draft_data)
-
+#' Convert Draft data into a table
+#' @param dd draft data from `fetch_draft_data()`
+parse_draft_data <- function(dd) {
+  tbl <- data.table::rbindlist(lapply(dd, function(z) {data.frame(t(unlist(z)))}), fill=T)
+  tbl <- tbl[order(draftYear, as.numeric(overallPickNumber))]
+  return(tbl)
 }

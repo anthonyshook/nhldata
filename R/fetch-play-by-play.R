@@ -1,33 +1,22 @@
 #' Function to fetch play-by-play data
 #'
 #' @param gameID an NHL gameID
+#' @param verbose Defaults to FALSE
+#'
+#' @details Returns the raw list-formatted JSON of play-by-play data
 #'
 #' @export
-fetch_play_by_play <- function(gameID) {
+fetch_play_by_play <- function(gameID, verbose=FALSE) {
 
-  # Get the API call
-  api_call <- gsub(pattern="{{GAME_ID}}", replacement=gameID, x=pbp_api, fixed = TRUE)
-  print(api_call)
+  # Set up progress bar
+  pb <- progress_bar$new(
+    format = "> downloading Play-by-Play GameID :what [:bar] :current/:total :percent eta: :eta",
+    clear = FALSE, total = length(gameID), width = 150)
 
-  # Fetch the data
-  counter <- 0
-  parsed <- NULL
-  while (counter <= 1) {
-  # while (counter <= 5 && is.null(parsed)) {
-
-    # Wait to asynchronize
-    Sys.sleep(runif(1,0.1,.5))
-
-    # Add to the counter
-    counter <- counter + 1
-
-    # Get the data
-    pbp_data <- get_api_call(api_call)
-
-    # parse the data
-    #parsed <- try(parse_pbp(pbp_data))
-  }
-
+  pbp_data <- lapply(gameID, function(G){
+    Sys.sleep(runif(1, .1, .5))
+    if (verbose) pb$tick(tokens = list(what = G))
+    out <- pbp_api |> format_uri(list(GAME_ID = G)) |> get_api_call()
+  })
   return(pbp_data)
-
 }
