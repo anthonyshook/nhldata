@@ -28,21 +28,26 @@ archive_data <- function(path, season, clean_build=FALSE, verbose=TRUE) {
 
   # Get the Game IDs
   if (verbose) futile.logger::flog.info('> Fetching Game IDs (Simple)')
+  # Get regular season games
   games <- fetch_game_ids(season=season, season_type = 2)
-  playoff_games <- fetch_game_ids(season=season, season_type = 3)
-
-  if (nrow(playoff_games) > 0) {
-    # Remove un-completed games (i.e., scheduled, but not played because it wasn't necessary)
-    playoff_games <- playoff_games[gameStateId == 7]
-    games <- rbind(games, playoff_games)
+  # Check if playoffs have started
+  season_meta <- season_meta_api |> format_uri(list(SEASON=season)) |> get_api_call()
+  season_end_flag <- lubridate::as_datetime(season_meta$data[[1]]$regularSeasonEndDate, tz=Sys.timezone()) < Sys.time()
+  if (season_end_flag) {
+    playoff_games <- fetch_game_ids(season=season, season_type = 3)
+    if (nrow(playoff_games) > 0) {
+      # Remove un-completed games (i.e., scheduled, but not played because it wasn't necessary)
+      playoff_games <- playoff_games[gameStateId == 7]
+      games <- rbind(games, playoff_games)
+    }
   }
+
+  # Write gameIDs to file (this is before doing a ton of cleaning)
+  data.table::fwrite(games, paste0(path,'/', season, '/game_ids.csv'))
 
   # Get rid of games that haven't been played yet.
   # simply by date, for now
   games <- games[gameDate < Sys.Date()]
-
-  # Write gameIDs to file
-  data.table::fwrite(games, paste0(path,'/', season, '/game_ids.csv'))
 
   # TODO -- add functionality to remove the games already processed, if clean_build isn't true
   # we could probably generate a state document, for now we just manually check.
