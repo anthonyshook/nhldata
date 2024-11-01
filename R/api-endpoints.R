@@ -10,8 +10,9 @@ landing_api    <- "https://api-web.nhle.com/v1/gamecenter/{GAME_ID}/landing"
 # Schedule API.  Endpoints are "NOW" or a specific DATE in YYYY-MM-DD format
 # e.g., https://api-web.nhle.com/v1/schedule/2024-01-23
 all_game_ids      <- 'https://api.nhle.com/stats/rest/en/game?cayenneExp=season={SEASON}%20and%20gameType={GAMETYPE}'
-date_schedule_api <- 'https://api-web.nhle.com/v1/schedule/{{DATE}}'
-club_schedule_api <- 'https://api-web.nhle.com/v1/club-schedule-season/{{TEAM}}/{{SEASON}}'
+date_schedule_api <- 'https://api-web.nhle.com/v1/schedule/{DATE}'
+club_schedule_api <- 'https://api-web.nhle.com/v1/club-schedule-season/{TEAM}/{SEASON}'
+season_meta_api   <- 'https://api.nhle.com/stats/rest/en/season?cayenneExp=id={SEASON}'
 
 # Teams (list of all available teams) -- Can take some report framework stuff
 teams_api <- "https://records.nhl.com/site/api/team"
@@ -23,12 +24,12 @@ roster_api <- 'https://api-web.nhle.com/v1/roster/{TEAM_ABBR}/{SEASON}' # https:
 
 # General Player Data, this is pretty much everybody ever.
 all_players_api <- 'https://search.d3.nhle.com/api/v1/search/player?culture=en-us&q=*&limit=100000'
-single_player_api <- 'https://api-web.nhle.com/v1/player/{{PLAYER_ID}}/landing'
+single_player_api <- 'https://api-web.nhle.com/v1/player/{PLAYER_ID}/landing'
 
 # player modifiers - add a season, like 20172018
 # https://statsapi.web.nhl.com/api/v1/people/ID/stats Complex endpoint with
 # lots of append options to change what kind of stats you wish to obtain
-# We don't realyl use these right now, primarily because they're not necessary for compiling data
+# We don't really use these right now, primarily because they're not necessary for compiling data
 # HOWEVER, goalie stat API is probably GREAT for some critical goalie related stuff
 skater_stat_api <- 'https://api.nhle.com/stats/rest/en/skater'
 goalie_stat_api <- "https://api.nhle.com/stats/rest/en/goalie"

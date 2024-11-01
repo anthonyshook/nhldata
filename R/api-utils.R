@@ -1,12 +1,5 @@
 # API utilities
 
-get_api_call_DEP <- function(uri) {
-
-  return(
-    httr::content(httr::GET(uri))
-  )
-}
-
 # Using HTTR2
 get_api_call <- function(uri) {
   headers <- list('Accept' = '*/*',
