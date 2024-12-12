@@ -12,6 +12,17 @@
 #' @export
 archive_data <- function(path, season, clean_build=FALSE, verbose=TRUE) {
 
+  # Generating a very simple state file that provides a status, and a timestamp
+  STATUS <- 'FAILED'
+  on.exit({
+    if (dir.exists(paste0(path,'/',season))) {
+      emit_state(path=path,
+                 season=season,
+                 status=STATUS,
+                 err=returnValue()) # this doesn't quite work but is fine
+    }
+  })
+
   # create the tree structure to start with
   if (verbose) futile.logger::flog.info('> Building Archive Structure')
   BOXSCORE_PATH  <- paste0(path,'/', season, '/boxscores/')
@@ -19,11 +30,13 @@ archive_data <- function(path, season, clean_build=FALSE, verbose=TRUE) {
   PBP_PATH       <- paste0(path,'/', season, '/play-by-play/')
   ROSTER_PATH    <- paste0(path,'/', season, '/rosters/')
   SHIFT_PATH     <- paste0(path,'/', season, '/shifts/')
+  TOI_PATH       <- paste0(path, '/', season, '/time-on-ice/')
 
   dir.create(path = BOXSCORE_PATH, showWarnings = FALSE, recursive = TRUE)
   dir.create(path = GAME_DATA_PATH, showWarnings = FALSE, recursive = TRUE)
   dir.create(path = PBP_PATH, showWarnings = FALSE, recursive = TRUE)
   dir.create(path = ROSTER_PATH, showWarnings = FALSE, recursive = TRUE)
+  dir.create(path = TOI_PATH, showWarnings = FALSE, recursive = TRUE)
   # dir.create(path = SHIFT_PATH, showWarnings = FALSE, recursive = TRUE) -- not currently supporting shifts
 
   # Get the Game IDs
@@ -45,20 +58,21 @@ archive_data <- function(path, season, clean_build=FALSE, verbose=TRUE) {
   # Write gameIDs to file (this is before doing a ton of cleaning)
   data.table::fwrite(games, paste0(path,'/', season, '/game_ids.csv'))
 
-  # Get rid of games that haven't been played yet.
-  # simply by date, for now
-  games <- games[gameDate < Sys.Date()]
+  # Get rid of games that haven't been completed (7 indicates a finished game)
+  games <- games[gameStateId==7]
 
   # TODO -- add functionality to remove the games already processed, if clean_build isn't true
   # we could probably generate a state document, for now we just manually check.
-  complete_ids <- check_state(paste0(path, '/', season, '/'))
-  games <- games[!(id %in% complete_ids)]
+  complete_ids <- get_processed_ids(paste0(path, '/', season, '/'))
+  if (!clean_build) {
+    games <- games[!(id %in% complete_ids)]
+  }
 
   ### BOXSCORES AND PLAY-BY-PLAY
   if (nrow(games) == 0) {
     futile.logger::flog.info('> No New Games to Process!  Moving on to Rosters')
   } else {
-    futile.logger::flog.info(paste0('> Found ', nrow(games), ' Games to Process'))
+    if (verbose) futile.logger::flog.info(paste0('> Found ', nrow(games), ' Games to Process'))
     if (verbose) futile.logger::flog.info('> Getting BoxScore, Game-Level, and Play-by-Play Data')
     pb <- progress_bar$new(
       format = "> Processing Game-Id :gm [:bar] :current/:total :percent (eta: :eta) :what ",
@@ -72,6 +86,7 @@ archive_data <- function(path, season, clean_build=FALSE, verbose=TRUE) {
       pbp_fname   <- paste0(PBP_PATH, GM, '-play-by-play.json')
       gs_fname    <- paste0(GAME_DATA_PATH, GM, '-summary.json')
       shift_fname <- paste0(SHIFT_PATH, GM, '-shift.json')
+      toi_fname   <- paste0(TOI_PATH, GM, '-toi.json')
 
       # Boxscore
       if (file.exists(box_fname) && !clean_build) {
@@ -105,6 +120,20 @@ archive_data <- function(path, season, clean_build=FALSE, verbose=TRUE) {
         if (verbose) pb$tick(0, tokens=list(gm=GM, what='Writing Game Summary to JSON'))
         jsonlite::write_json(gs_data[[1]], gs_fname, auto_unbox=TRUE, pretty=TRUE)
       }
+
+      # Time on Ice
+      # only need this really for like... SH/PP TOI -- other summary stats I can calculate
+      # from the PBP directly
+      if (file.exists(toi_fname) && !clean_build) {
+        if(verbose) pb$tick(0, tokens=list(gm=GM, what='Existing TOI Report Found    '))
+        Sys.sleep(0.001)
+      } else {
+        if (verbose) pb$tick(0, tokens=list(gm=GM, what='Fetching TOI Report         '))
+        toi_data <- fetch_time_on_ice(GM, verbose=F)
+        if (verbose) pb$tick(0, tokens=list(gm=GM, what='Writing TOI Report to JSON  '))
+        jsonlite::write_json(toi_data[[1]], toi_fname, auto_unbox=TRUE, pretty=TRUE)
+      }
+
 
       # # Shift Data commented out for now, no need for this
       # if (file.exists(shift_fname) && !clean_build) {
@@ -167,26 +196,46 @@ archive_data <- function(path, season, clean_build=FALSE, verbose=TRUE) {
   jsonlite::write_json(x = draft_data, path = paste0(path,'/', season, '/draft-data.json'), auto_unbox=TRUE, pretty=TRUE)
 
   if (verbose) futile.logger::flog.info('Data Archiving Complete!')
+  STATUS <- 'SUCCESS'
   return(invisible(NULL))
 
 }
 
 
 # State file generator
-check_state <- function(path) {
+get_processed_ids <- function(path) {
   # checking if things exist -- here's what we'll want to do
   # Get every GAME_ID that exists in scores, summaries, and play-by-play
   # If that game ID exists, go ahead and remove it from the list of games to process
   extract_game_id_from_file <- function(fn) {strsplit(fn,'-')[[1]][1]}
 
   # game-summary
-  gs_ids  <- sapply(list.files(paste0(path, '/game-summary/')), extract_game_id_from_file)
-  # boxscores
-  bs_ids  <- sapply(list.files(paste0(path, '/boxscores/')), extract_game_id_from_file)
-  # pbp
-  pbp_ids <-sapply(list.files(paste0(path, '/play-by-play/')), extract_game_id_from_file)
-
-  shared_ids <- Reduce(intersect, list(gs_ids, bs_ids, pbp_ids))
-
+  list_of_ids_to_check <- list(
+    gs_ids  = sapply(list.files(paste0(path, '/game-summary/')), extract_game_id_from_file),
+    # boxscores
+    bs_ids  = sapply(list.files(paste0(path, '/boxscores/')), extract_game_id_from_file),
+    # pbp
+    pbp_ids = sapply(list.files(paste0(path, '/play-by-play/')), extract_game_id_from_file),
+    # time on ice
+    toi_ids = sapply(list.files(paste0(path, '/time-on-ice/')), extract_game_id_from_file)
+  )
+  # Get intersection
+  shared_ids <- Reduce(intersect, list_of_ids_to_check)
   return(shared_ids)
+}
+
+# Write state file
+emit_state <- function(path, season, status, err) {
+  jsonlite::write_json(
+    list(
+      archive = path,
+      season = season,
+      status = status,
+      err = err,
+      timestamp = Sys.time()
+    ),
+    path = paste0(path, '/', season, '/state.json'),
+    auto_unbox=TRUE,
+    pretty=TRUE
+  )
 }
